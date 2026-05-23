@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Steak Studio | Canal Branch, Lahore</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dark: #8B6914;
+    --charcoal: #1A1A18;
+    --charcoal-2: #242420;
+    --charcoal-3: #2E2E28;
+    --cream: #F5F0E8;
+    --cream-2: #EDE8DC;
+    --text-muted: #9A9488;
+    --red-accent: #8B2020;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--charcoal);
+    color: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: linear-gradient(to bottom, rgba(26,26,24,0.97) 0%, rgba(26,26,24,0) 100%);
+    transition: background 0.4s;
+  }
+  nav.scrolled { background: rgba(26,26,24,0.97); border-bottom: 1px solid rgba(201,168,76,0.2); }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--cream); font-weight: 300; }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--cream-2); text-decoration: none; font-weight: 400;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    background: var(--gold); color: var(--charcoal);
+    padding: 0.6rem 1.4rem; text-decoration: none; font-weight: 600;
+    transition: background 0.3s;
+  }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  /* ── HERO ── */
+  #hero {
+    height: 100vh; min-height: 700px;
+    position: relative; display: flex; align-items: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 60% 40%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(139,32,32,0.12) 0%, transparent 50%),
+      linear-gradient(135deg, #0D0D0B 0%, #1A1A18 40%, #111110 100%);
+  }
+
+  .hero-grid-lines {
+    position: absolute; inset: 0; opacity: 0.06;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 80px, var(--gold) 80px, var(--gold) 80.5px),
+      repeating-linear-gradient(90deg, transparent, transparent 80px, var(--gold) 80px, var(--gold) 80.5px);
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 4rem; max-width: 900px;
+  }
+
+  .hero-eyebrow {
+    display: flex; align-items: center; gap: 1rem;
+    font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 2rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block;
+    width: 3rem; height: 1px; background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 8vw, 8rem);
+    font-weight: 300;
+    line-height: 0.9;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero-tagline {
+    font-size: 1rem; color: var(--text-muted);
+    max-width: 480px; line-height: 1.7;
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+
+  .hero-actions { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase;
+    background: var(--gold); color: var(--charcoal);
+    padding: 1rem 2.5rem; text-decoration: none; font-weight: 600;
+    display: inline-block;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  .btn-ghost {
+    font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--cream-2); text-decoration: none; font-weight: 400;
+    display: flex; align-items: center; gap: 0.7rem;
+    transition: color 0.3s;
+  }
+  .btn-ghost:hover { color: var(--gold); }
+  .btn-ghost::after {
+    content: '→'; font-size: 1rem;
+    transition: transform 0.3s;
+  }
+  .btn-ghost:hover::after { transform: translateX(4px); }
+
+  .hero-rating {
+    position: absolute; right: 4rem; bottom: 4rem; z-index: 2;
+    text-align: right;
+  }
+  .rating-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4.5rem; font-weight: 300; line-height: 1;
+    color: var(--gold);
+  }
+  .rating-stars { color: var(--gold); font-size: 1rem; margin: 0.3rem 0; }
+  .rating-count { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.1em; }
+
+  /* ── SEPARATOR ── */
+  .sep {
+    display: flex; align-items: center; justify-content: center; gap: 1.5rem;
+    padding: 0; margin: 0 auto;
+    width: 100%;
+  }
+  .sep::before, .sep::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
+  }
+  .sep-icon { color: var(--gold); font-size: 1.2rem; }
+
+  /* ── ABOUT ── */
+  #about {
+    padding: 8rem 4rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+    align-items: center;
+    background: var(--charcoal-2);
+    position: relative;
+  }
+
+  .section-label {
+    font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .section-label::before {
+    content: ''; display: block;
+    width: 2rem; height: 1px; background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 300; line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 2rem;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .about-text p {
+    color: var(--text-muted); line-height: 1.9;
+    font-weight: 300; font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+    margin-top: 3rem;
+  }
+  .stat-box {
+    background: var(--charcoal-3); padding: 1.8rem;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem; font-weight: 300; color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-top: 0.5rem; }
+
+  .about-visual {
+    position: relative;
+  }
+  .about-card {
+    background: var(--charcoal-3);
+    padding: 3rem;
+    border: 1px solid rgba(201,168,76,0.15);
+    position: relative;
+  }
+  .about-card::before {
+    content: '"';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 8rem; color: var(--gold); opacity: 0.15;
+    position: absolute; top: -1rem; left: 2rem; line-height: 1;
+  }
+  .about-card blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-style: italic; font-weight: 300;
+    color: var(--cream-2); line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  .about-card cite {
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--gold); font-style: normal;
+  }
+
+  /* ── HIGHLIGHTS ── */
+  #highlights {
+    padding: 8rem 4rem;
+    background: var(--charcoal);
+  }
+  .highlights-header { text-align: center; margin-bottom: 5rem; }
+
+  .highlights-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  }
+  .highlight-item {
+    background: var(--charcoal-2);
+    padding: 3rem 2.5rem;
+    position: relative; overflow: hidden;
+    transition: background 0.4s;
+  }
+  .highlight-item:hover { background: var(--charcoal-3); }
+  .highlight-item::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .highlight-item:hover::after { transform: scaleX(1); }
+
+  .highlight-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem; font-weight: 300; color: rgba(201,168,76,0.1);
+    line-height: 1; margin-bottom: 1rem;
+  }
+  .highlight-icon { font-size: 2rem; margin-bottom: 1.5rem; }
+  .highlight-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 400; color: var(--cream);
+    margin-bottom: 1rem;
+  }
+  .highlight-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; font-weight: 300; }
+
+  /* ── MENU FEATURE ── */
+  #menu {
+    padding: 8rem 4rem;
+    background: var(--charcoal-2);
+  }
+  .menu-header { text-align: center; margin-bottom: 5rem; }
+
+  .menu-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;
+    margin-bottom: 4rem;
+  }
+  .menu-card {
+    background: var(--charcoal); padding: 2.5rem;
+    display: flex; gap: 2rem; align-items: flex-start;
+    transition: background 0.3s;
+    position: relative;
+  }
+  .menu-card:hover { background: var(--charcoal-3); }
+  .menu-card-badge {
+    background: var(--gold); color: var(--charcoal);
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 0.3rem 0.7rem; font-weight: 600;
+    position: absolute; top: 1.5rem; right: 1.5rem;
+  }
+  .menu-icon {
+    font-size: 2rem; width: 3rem; flex-shrink: 0; padding-top: 0.3rem;
+  }
+  .menu-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 400; color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+  .menu-card-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; font-weight: 300; }
+
+  .menu-cta-wrapper { text-align: center; }
+  .menu-price-note {
+    font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── REVIEWS ── */
+  #reviews {
+    padding: 8rem 4rem;
+    background: var(--charcoal);
+  }
+  .reviews-header { text-align: center; margin-bottom: 5rem; }
+
+  .reviews-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  }
+  .review-card {
+    background: var(--charcoal-2); padding: 2.5rem;
+    border: 1px solid rgba(201,168,76,0.1);
+    position: relative;
+  }
+  .review-stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .review-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-style: italic;
+    color: var(--cream-2); line-height: 1.7;
+    margin-bottom: 2rem; font-weight: 300;
+  }
+  .review-author {
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .review-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--gold-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 0.8rem; color: var(--charcoal);
+    flex-shrink: 0;
+  }
+  .review-name { font-size: 0.85rem; font-weight: 500; color: var(--cream); }
+  .review-meta { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+  /* ── INFO ── */
+  #info {
+    padding: 8rem 4rem;
+    background: var(--charcoal-2);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start;
+  }
+
+  .info-group { margin-bottom: 3rem; }
+  .info-group:last-child { margin-bottom: 0; }
+  .info-label {
+    font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.8rem;
+  }
+  .info-value { font-size: 1rem; color: var(--cream); line-height: 1.7; font-weight: 300; }
+  .info-value a { color: var(--gold); text-decoration: none; }
+  .info-value a:hover { text-decoration: underline; }
+
+  .hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem; }
+  .hours-row {
+    display: flex; justify-content: space-between;
+    font-size: 0.9rem; padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+    font-weight: 300;
+  }
+  .hours-day { color: var(--text-muted); }
+  .hours-time { color: var(--cream); }
+  .open-badge {
+    display: inline-block;
+    background: rgba(40,120,60,0.2); color: #6BCF7F;
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 0.2rem 0.7rem; border-radius: 20px; margin-left: 0.5rem;
+  }
+
+  .map-placeholder {
+    background: var(--charcoal-3); border: 1px solid rgba(201,168,76,0.15);
+    aspect-ratio: 4/3; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 1rem;
+    font-size: 2rem; color: var(--gold); text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .map-placeholder::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(201,168,76,0.04) 30px, rgba(201,168,76,0.04) 30.5px),
+      repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(201,168,76,0.04) 30px, rgba(201,168,76,0.04) 30.5px);
+  }
+  .map-placeholder p { font-size: 0.9rem; color: var(--text-muted); z-index: 1; }
+  .map-placeholder span { z-index: 1; }
+  .map-btn {
+    display: inline-block; margin-top: 0.5rem;
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    background: var(--gold); color: var(--charcoal);
+    padding: 0.6rem 1.5rem; text-decoration: none; font-weight: 600;
+    z-index: 1;
+    transition: background 0.3s;
+  }
+  .map-btn:hover { background: var(--gold-light); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--charcoal); padding: 4rem;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 2rem;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600;
+    color: var(--gold);
+  }
+  .footer-logo span { color: var(--cream); font-weight: 300; }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a {
+    font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-muted); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-copy { font-size: 0.75rem; color: var(--text-muted); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-eyebrow { animation: fadeUp 0.8s ease both; animation-delay: 0.2s; }
+  .hero-title { animation: fadeUp 0.8s ease both; animation-delay: 0.4s; }
+  .hero-tagline { animation: fadeUp 0.8s ease both; animation-delay: 0.6s; }
+  .hero-actions { animation: fadeUp 0.8s ease both; animation-delay: 0.8s; }
+  .hero-rating { animation: fadeUp 0.8s ease both; animation-delay: 1s; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero-content { padding: 0 1.5rem; }
+    .hero-rating { right: 1.5rem; bottom: 2rem; }
+    #about, #info { grid-template-columns: 1fr; padding: 5rem 1.5rem; gap: 3rem; }
+    #highlights, #menu, #reviews { padding: 5rem 1.5rem; }
+    .highlights-grid, .reviews-grid { grid-template-columns: 1fr; }
+    .menu-grid { grid-template-columns: 1fr; }
+    footer { padding: 3rem 1.5rem; flex-direction: column; align-items: flex-start; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Steak <span>Studio</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#highlights">Experience</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#info">Visit</a></li>
+  </ul>
+  <a href="tel:+923024554999" class="nav-cta">Reserve · +92 302 4554999</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Canal Branch · Lahore, Pakistan</div>
+    <h1 class="hero-title">
+      Steak<br>
+      <em>Studio</em>
+    </h1>
+    <p class="hero-tagline">
+      Where every cut is a masterpiece. Experience Lahore's premier steakhouse — from flame-kissed sirloins to decadent buffets, crafted for the discerning palate.
+    </p>
+    <div class="hero-actions">
+      <a href="https://drive.google.com/drive/folders/1yv6ICu17Wgpd_l2KQzCRtDwTbMhp6oq_" target="_blank" class="btn-primary">View Full Menu</a>
+      <a href="#info" class="btn-ghost">Find Us</a>
+    </div>
+  </div>
+  <div class="hero-rating">
+    <div class="rating-num">4.4</div>
+    <div class="rating-stars">★★★★★</div>
+    <div class="rating-count">1,939 Reviews</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-text">
+    <div class="section-label">Our Story</div>
+    <h2 class="section-title">A Cut Above<br><em>the Rest</em></h2>
+    <p>
+      Steak Studio on Canal Bank Road is Lahore's destination for premium steakhouse dining. Set along the iconic canal, our Canal Branch has become a beloved landmark for food enthusiasts seeking quality, ambiance, and an unforgettable culinary experience.
+    </p>
+    <p>
+      From sizzling steaks to lavish buffets, hi-tea spreads, and Iftar feasts — every visit is a distinct occasion. Our team takes pride in warm hospitality, a refined atmosphere, and dishes crafted with care and consistency.
+    </p>
+    <div class="about-stats">
+      <div class="stat-box">
+        <div class="stat-num">1,939</div>
+        <div class="stat-label">Google Reviews</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">4.4</div>
+        <div class="stat-label">Avg Rating</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">1AM</div>
+        <div class="stat-label">Late Closing</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Service Modes</div>
+      </div>
+    </div>
+  </div>
+  <div class="about-visual">
+    <div class="about-card">
+      <blockquote>
+        "A steakhouse experience in Lahore with decent ambiance, good staff, and quality meals — Steak Studio on Canal Bank Road is a strong choice."
+      </blockquote>
+      <cite>— Majid Asghar · Local Guide</cite>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section id="highlights">
+  <div class="highlights-header">
+    <div class="section-label" style="justify-content:center;">The Experience</div>
+    <h2 class="section-title">Why Guests <em>Return</em></h2>
+  </div>
+  <div class="highlights-grid">
+    <div class="highlight-item">
+      <div class="highlight-num">01</div>
+      <div class="highlight-icon">🥩</div>
+      <div class="highlight-title">Signature Steaks</div>
+      <p class="highlight-desc">Hand-selected cuts, flame-grilled to perfection. From classic sirloins to specialty Mushroom Steak — every plate is a statement.</p>
+    </div>
+    <div class="highlight-item">
+      <div class="highlight-num">02</div>
+      <div class="highlight-icon">🍽️</div>
+      <div class="highlight-title">Lavish Buffets</div>
+      <p class="highlight-desc">Daily buffet spreads loaded with variety — fresh starters, hot entrées, salad bars, and indulgent desserts. Also featuring Hi-Tea and special Iftar buffets.</p>
+    </div>
+    <div class="highlight-item">
+      <div class="highlight-num">03</div>
+      <div class="highlight-icon">🌙</div>
+      <div class="highlight-title">Special Occasions</div>
+      <p class="highlight-desc">From Iftar feasts at Rs 1,999 to Hi-Tea spreads — Steak Studio hosts every occasion with flair and an unmatched variety of dishes.</p>
+    </div>
+    <div class="highlight-item">
+      <div class="highlight-num">04</div>
+      <div class="highlight-icon">🍹</div>
+      <div class="highlight-title">Juice & Salad Bar</div>
+      <p class="highlight-desc">Fresh-pressed juices and a vibrant salad station complement every meal — crisp, seasonal, and made to order.</p>
+    </div>
+    <div class="highlight-item">
+      <div class="highlight-num">05</div>
+      <div class="highlight-icon">🏡</div>
+      <div class="highlight-title">Refined Ambiance</div>
+      <p class="highlight-desc">Warm interiors, attentive staff, and a setting on Canal Bank Road that elevates every visit — ideal for families, dates, and business dinners.</p>
+    </div>
+    <div class="highlight-item">
+      <div class="highlight-num">06</div>
+      <div class="highlight-icon">🚗</div>
+      <div class="highlight-title">Flexible Service</div>
+      <p class="highlight-desc">Dine in at our tables, pick up curbside, or enjoy no-contact delivery — convenience tailored to your lifestyle, every day of the week.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="menu-header">
+    <div class="section-label" style="justify-content:center;">Our Offerings</div>
+    <h2 class="section-title">Menu <em>Highlights</em></h2>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-card">
+      <div class="menu-card-badge">Popular</div>
+      <div class="menu-icon">🍄</div>
+      <div>
+        <div class="menu-card-title">Mushroom Steak</div>
+        <p class="menu-card-desc">A guest favourite — tender steak topped with a rich mushroom sauce, served sizzling with your choice of sides.</p>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-card-badge">Popular</div>
+      <div class="menu-icon">🍫</div>
+      <div>
+        <div class="menu-card-title">Molten Lava Cake</div>
+        <p class="menu-card-desc">The perfect finale — warm chocolate cake with a liquid center, served with cream. A guest obsession.</p>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-icon">🥩</div>
+      <div>
+        <div class="menu-card-title">Steaks & Grills</div>
+        <p class="menu-card-desc">A curated selection of premium cuts — beef, fish, and more — each expertly seasoned and flame-grilled.</p>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-icon">🥗</div>
+      <div>
+        <div class="menu-card-title">Salad Bar & Starters</div>
+        <p class="menu-card-desc">Fresh, crispy, and served hot — the starters at Steak Studio set a great tone for what comes next.</p>
+      </div>
+    </div>
+  </div>
+  <div class="menu-cta-wrapper">
+    <a href="https://drive.google.com/drive/folders/1yv6ICu17Wgpd_l2KQzCRtDwTbMhp6oq_" target="_blank" class="btn-primary">View Complete Menu</a>
+    <p class="menu-price-note">Buffet from Rs 1,226 + tax &nbsp;·&nbsp; À la carte Rs 1,000–2,000 per person</p>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="reviews-header">
+    <div class="section-label" style="justify-content:center;">Guest Voices</div>
+    <h2 class="section-title">What Our Guests <em>Say</em></h2>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Visited for their Hi-Tea buffet and the overall experience was truly impressive. Wide variety of starters, fresh, crispy, and served hot."</p>
+      <div class="review-author">
+        <div class="review-avatar">MA</div>
+        <div>
+          <div class="review-name">Munir Alive</div>
+          <div class="review-meta">Local Guide · 4 months ago</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Unbelievable Iftar buffet at 1999/- + tax. Love that they're serving both fish and beef at this price — such a huge variety! Best Iftar spot!"</p>
+      <div class="review-author">
+        <div class="review-avatar">FM</div>
+        <div>
+          <div class="review-name">Fatima Masood</div>
+          <div class="review-meta">Local Guide · 2 months ago</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"A steakhouse experience in Lahore with decent ambiance, good staff, and quality meals. Steak Studio on Canal Bank Road is a strong choice."</p>
+      <div class="review-author">
+        <div class="review-avatar">MJ</div>
+        <div>
+          <div class="review-name">Majid Asghar</div>
+          <div class="review-meta">Local Guide · 6 months ago</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO / VISIT -->
+<section id="info">
+  <div>
+    <div class="section-label">Plan Your Visit</div>
+    <h2 class="section-title">Come <em>Find Us</em></h2>
+
+    <div class="info-group">
+      <div class="info-label">Address</div>
+      <div class="info-value">
+        Main Canal Bank Road, 184 A, Block A<br>
+        Iqbal Avenue Phase 3, Lahore, Pakistan
+      </div>
+    </div>
+
+    <div class="info-group">
+      <div class="info-label">Phone</div>
+      <div class="info-value"><a href="tel:+923024554999">+92 302 4554999</a></div>
+    </div>
+
+    <div class="info-group">
+      <div class="info-label">Hours</div>
+      <div class="info-value">
+        <div class="hours-grid">
+          <div class="hours-row"><span class="hours-day">Mon – Thu</span><span class="hours-time">12 PM – 1 AM</span></div>
+          <div class="hours-row"><span class="hours-day">Fri – Sat</span><span class="hours-time">12 PM – 1 AM</span></div>
+          <div class="hours-row"><span class="hours-day">Sunday</span><span class="hours-time">12 PM – 1 AM</span></div>
+        </div>
+        <span class="open-badge">Open Now</span>
+      </div>
+    </div>
+
+    <div class="info-group">
+      <div class="info-label">Services</div>
+      <div class="info-value">Dine-in &nbsp;·&nbsp; Curbside Pickup &nbsp;·&nbsp; No-Contact Delivery</div>
+    </div>
+
+    <div class="info-group">
+      <div class="info-label">Price Range</div>
+      <div class="info-value">Rs 1,000 – 2,000 per person</div>
+    </div>
+  </div>
+
+  <div>
+    <div class="map-placeholder">
+      <span>📍</span>
+      <p>Canal Bank Road, Lahore</p>
+      <a href="https://maps.google.com/?q=Steak+Studio+Canal+Branch+Lahore" target="_blank" class="map-btn">Open in Google Maps</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Steak <span>Studio</span></div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#menu">Menu</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#info">Visit</a>
+    <a href="tel:+923024554999">Call Us</a>
+  </div>
+  <div class="footer-copy">© 2025 Steak Studio · Canal Branch, Lahore</div>
+</footer>
+
+<script>
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+</script>
+</body>
+</html>
